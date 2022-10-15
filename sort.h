@@ -12,9 +12,9 @@
  */
 typedef struct listint_s
 {
-    const int n;
-    struct listint_s *prev;
-    struct listint_s *next;
+	const int n;
+	struct listint_s *prev;
+	struct listint_s *next;
 } listint_t;
 listint_t *swap_node(listint_t *node, listint_t **list);
 void print_array(const int *array, size_t size);
