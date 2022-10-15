@@ -6,36 +6,41 @@
   */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *curr;
-	
-	printf("here");
-	curr = *list;
-	while (curr)
+	listint_t *node;
+
+	if (list == NULL || (*list)->next == NULL)
+		return;
+	node = (*list)->next;
+	while (node)
 	{
-		while (curr->prev)
+		while ((node->prev) && (node->prev->n > node->n))
 		{
-			if (curr->n < (curr->prev)->n)
-			{
-				if (curr->next)
-					(curr->prev)->next = curr->next;
-				else
-					(curr->prev)->next = NULL;
-				(curr->next)->prev = curr->prev;
-				curr->next = curr->prev;
-				if ((curr->prev)->prev)
-				{
-					curr->prev = (curr->prev)->prev;
-					(curr->prev)->prev = curr;
-				}
-				else
-				{
-					curr->prev = NULL;
-					*list = curr;
-				}
-				print_list(*list);
-			}
+			node = swap_node(node, list);
+			print_list(*list);
 		}
-		curr = curr->next;
+		node = node->next;
 	}
 }
 
+/**
+ *swap_node - swap a node for his previous one
+ *@node: node
+ *@list: node list
+ *Return: return a pointer to a list
+ */
+listint_t *swap_node(listint_t *node, listint_t **list)
+{
+	listint_t *bfr = node->prev, *current = node;
+
+	bfr->next = current->next;
+	if (current->next)
+		current->next->prev = bfr;
+	current->next = bfr;
+	current->prev = bfr->prev;
+	bfr->prev = current;
+	if (current->prev)
+		current->prev->next = current;
+	else
+		*list = current;
+	return (current);
+}
